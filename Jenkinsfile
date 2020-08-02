@@ -17,6 +17,15 @@ def slavePodTemplate = """
                   - jenkins-jenkins-master
               topologyKey: "kubernetes.io/hostname"
         containers:
+        - name: helm
+          image: fluxcd/helm-operator:1.2.0
+          imagePullPolicy: IfNotPresent
+          command:
+          - cat
+          tty: true
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-sock 
         - name: buildtools
           image: fuchicorp/buildtools
           imagePullPolicy: IfNotPresent
@@ -34,16 +43,7 @@ def slavePodTemplate = """
           tty: true
           volumeMounts:
             - mountPath: /var/run/docker.sock
-              name: docker-sock
-         - name: helm
-          image: fluxcd/helm-operator:1.2.0
-          imagePullPolicy: IfNotPresent
-          command:
-          - cat
-          tty: true
-          volumeMounts:
-            - mountPath: /var/run/docker.sock
-              name: docker-sock     
+              name: docker-sock    
         serviceAccountName: common-jenkins
         securityContext:
           runAsUser: 0
