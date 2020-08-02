@@ -54,7 +54,7 @@ def slavePodTemplate = """
     podTemplate(name: k8slabel, label: k8slabel, yaml: slavePodTemplate, showRawYaml: false) {
       node(k8slabel) {
         stage("Pull SCM") {
-            git 'https://github.com/beckkari8/jenkins_instance.git'
+            git 'https://github.com/beckkari8/hw3.git'
         }
         stage("Generate Variables") {
           dir('deployments/terraform') {
