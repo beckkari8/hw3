@@ -72,7 +72,7 @@ def slavePodTemplate = """
                     stage("Copying JOBS and Existing CREDENTIALS to /tmp folder"){
                       sh """
                       #!/bin/bash
-                      export JENKINS_POD_NAME=\$(kubectl get pod | grep jenkins | awk '{print \$1}')
+                      export JENKINS_POD_NAME=\$(kubectl get pod | grep jenkins | awk '{print $1}')
                       kubectl cp \$JENKINS_POD_NAME:/var/jenkins_home/jobs /tmp/jobs
                       kubectl cp \$JENKINS_POD_NAME:/var/jenkins_home/credentials.xml /tmp/credentials.xml
                       """
