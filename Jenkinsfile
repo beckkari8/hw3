@@ -35,7 +35,7 @@ def slavePodTemplate = """
           volumeMounts:
             - mountPath: /var/run/docker.sock
               name: docker-sock
-        serviceAccountName: default
+        serviceAccountName: common-jenkins
         securityContext:
           runAsUser: 0
           fsGroup: 0
@@ -47,8 +47,7 @@ def slavePodTemplate = """
     properties([
         parameters([
             booleanParam(defaultValue: false, description: 'Please select to apply the changes ', name: 'terraformApply'),
-            booleanParam(defaultValue: false, description: 'Please select to destroy all ', name: 'terraformDestroy'), 
-            choice(choices: ['dev', 'qa', 'stage', 'prod'], description: 'Please select the environment to deploy.', name: 'environment')
+            booleanParam(defaultValue: false, description: 'Please select to destroy all ', name: 'terraformDestroy')
         ])
     ])
     podTemplate(name: k8slabel, label: k8slabel, yaml: slavePodTemplate, showRawYaml: false) {
