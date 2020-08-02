@@ -35,6 +35,15 @@ def slavePodTemplate = """
           volumeMounts:
             - mountPath: /var/run/docker.sock
               name: docker-sock
+         - name: helm
+          image: fluxcd/helm-operator:1.2.0
+          imagePullPolicy: IfNotPresent
+          command:
+          - cat
+          tty: true
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-sock     
         serviceAccountName: common-jenkins
         securityContext:
           runAsUser: 0
@@ -115,11 +124,14 @@ def slavePodTemplate = """
                         }
                     }
                     stage("Attaching the PVC to the exixtingClaim"){
+                      container("helm") {
                       sh """
                       #!/bin/bash
                       helm upgrade jenkins --set persistence.existingClaim=pvc stable/jenkins
                       """
                     }
+                    }
+                  
                      stage("Copying JOBS and Existing CREDENTIALS to JENKINS_POD_NAME:/var/jenkins_home "){
                       sh """
                       #!/bin/bash
