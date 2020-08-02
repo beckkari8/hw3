@@ -47,7 +47,8 @@ def slavePodTemplate = """
     properties([
         parameters([
             booleanParam(defaultValue: false, description: 'Please select to apply the changes ', name: 'terraformApply'),
-            booleanParam(defaultValue: false, description: 'Please select to destroy all ', name: 'terraformDestroy')
+            booleanParam(defaultValue: false, description: 'Please select to destroy all ', name: 'terraformDestroy'),
+            choice(choices: ['dev', 'qa', 'stage', 'prod'], description: 'Please select the environment to deploy.', name: 'environment')
         ])
     ])
     podTemplate(name: k8slabel, label: k8slabel, yaml: slavePodTemplate, showRawYaml: false) {
