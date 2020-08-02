@@ -1,4 +1,4 @@
-environment = "dev"
+//environment = "dev"
 s3_bucket = "jenkins-instance-beck"
 s3_folder_project = "jenkins"
 s3_folder_region = "us-east-1"
