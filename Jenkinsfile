@@ -123,14 +123,14 @@ def slavePodTemplate = """
                             println("Skiping the destroy")
                         }
                     }
-                    stage("Attaching the PVC to the exixtingClaim"){
-                      container("helm") {
-                      sh """
-                      #!/bin/bash
-                      helm upgrade jenkins --set persistence.existingClaim=pvc stable/jenkins
-                      """
-                    }
-                    }
+                    // stage("Attaching the PVC to the exixtingClaim"){
+                    //   container("helm") {
+                    //   sh """
+                    //  // #!/bin/bash
+                    // helm upgrade jenkins --set persistence.existingClaim=pvc stable/jenkins
+                    //   """
+                    // }
+                    // }
                   
                      stage("Copying JOBS and Existing CREDENTIALS to JENKINS_POD_NAME:/var/jenkins_home "){
                       sh """
