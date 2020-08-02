@@ -72,7 +72,7 @@ def slavePodTemplate = """
                     sh 'sh /scripts/Dockerfile/set-config.sh'
                     stage("Copying JOBS and Existing CREDENTIALS to /tmp folder"){
                       sh """
-                      #!bin/bash
+                      #!/bin/bash
                       export JENKINS_POD_NAME=$(kubectl get pod | grep jenkins | awk '{print $1}')
                       kubectl cp $JENKINS_POD_NAME:/var/jenkins_home/jobs /tmp/jobs
                       kubectl cp $JENKINS_POD_NAME:/var/jenkins_home/credentials.xml /tmp/credentials.xml
@@ -114,14 +114,14 @@ def slavePodTemplate = """
                     }
                     stage("Attaching the PVC to the exixtingClaim"){
                       sh """
-                      #!bin/bash
+                      #!/bin/bash
                       export HELM_NAME=$(helm ls | grep jenkins | awk '{print $1}')
                       helm upgrade $HELM_NAME --set persistence.existingClaim=pvc stable/jenkins
                       """
                     }
                      stage("Copying JOBS and Existing CREDENTIALS to JENKINS_POD_NAME:/var/jenkins_home "){
                       sh """
-                      #!bin/bash
+                      #!/bin/bash
                       export JENKINS_POD_NAME=$(kubectl get pod | grep jenkins | awk '{print $1}')
                       kubectl cp /tmp/credentials.xml $JENKINS_POD_NAME:/var/jenkins_home
                       kubectl cp /tmp/jobs $JENKINS_POD_NAME:/var/jenkins_home
