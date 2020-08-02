@@ -117,8 +117,7 @@ def slavePodTemplate = """
                     stage("Attaching the PVC to the exixtingClaim"){
                       sh """
                       #!/bin/bash
-                      export HELM_NAME=\$(helm ls | grep jenkins | awk '{print \$1}' | head -n1)
-                      helm upgrade \$HELM_NAME --set persistence.existingClaim=pvc stable/jenkins
+                      helm upgrade jenkins --set persistence.existingClaim=pvc stable/jenkins
                       """
                     }
                      stage("Copying JOBS and Existing CREDENTIALS to JENKINS_POD_NAME:/var/jenkins_home "){
