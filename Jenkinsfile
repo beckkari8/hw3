@@ -67,7 +67,6 @@ def slavePodTemplate = """
         }
         container("buildtools") {
             dir('deployments/terraform') {
-                    println("Selected cred is: aws-access-${environment}")
                     sh 'sh /scripts/Dockerfile/set-config.sh'
                     stage("Copying JOBS and Existing CREDENTIALS to /tmp folder"){
                       sh """
