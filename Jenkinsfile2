@@ -92,27 +92,41 @@ def slavePodTemplate = """
 
                     stage("Terraform Apply/plan") {
                         if (!params.terraformDestroy) {
-                            if (params.terraformApply) {
+                          if(params.terraformApply && params.DEBUG){
+                            println("ozundun kodundu koi")
+
+                          }
+                          else if (params.terraformApply) {
                                 println("Applying the changes")
                                 sh """
                                 #!/bin/bash
                                 source ./setenv.sh dev.tfvars
+
                                 terraform apply -auto-approve -var-file \$DATAFILE
                                 """
+                  
                             } else {
-                                println("Planing the changes")
-                                sh """
-                                #!/bin/bash
-                                set +ex
-                                ls -l
-                                source ./setenv.sh dev.tfvars
-                                terraform plan -var-file \$DATAFILE
-                                """
+                                if(params.DEBUG){
+                                  println("ozundun kodundu koi")
+                                }
+                                else{
+                                  println("Planing the changes")
+                                  sh """
+                                  #!/bin/bash
+                                  set +ex
+                                  ls -l
+                                  source ./setenv.sh dev.tfvars
+                                  terraform plan -var-file \$DATAFILE
+                                  """
+                                }
                             }
                         }
                     }
                     stage("Terraform Destroy") {
-                        if (params.terraformDestroy) {
+                      if(params.terraformDestroy && params.DEBUG){
+                        println{"ozundun kodundu koi"}
+                      }
+                      else if (params.terraformDestroy) {
                             println("Destroying the all")
                             sh """
                             #!/bin/bash
